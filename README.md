@@ -45,6 +45,29 @@ Prometheus scrapes metrics at `:8000/metrics`. Grafana dashboards on port 3000.
 
 ---
 
+## Sending requests
+
+`client.py` provides a simple wrapper around the OpenAI SDK pointed at the workshop server.
+
+Set the server details first (shared at the session start):
+```bash
+export WORKSHOP_SERVER_URL=http://<server-ip>:8000/v1
+export WORKSHOP_API_KEY=<api-key>
+```
+
+As a module:
+```python
+from client import chat
+print(chat("Explain KV cache in one sentence"))
+```
+
+From the command line:
+```bash
+python client.py "Explain KV cache in one sentence"
+```
+
+---
+
 ## Prerequisites
 
 - `gcloud` CLI installed and authenticated (`gcloud auth login`)
