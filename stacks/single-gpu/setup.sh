@@ -5,7 +5,10 @@ set -e
 
 # Install Docker Compose plugin if not present
 if ! docker compose version &>/dev/null; then
-    apt-get update -q && apt-get install -y docker-compose-plugin
+    mkdir -p /usr/local/lib/docker/cli-plugins
+    curl -SL "https://github.com/docker/compose/releases/latest/download/docker-compose-linux-x86_64" \
+        -o /usr/local/lib/docker/cli-plugins/docker-compose
+    chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
 fi
 
 # Pre-pull images so startup is fast during the workshop

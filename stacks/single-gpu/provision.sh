@@ -11,7 +11,8 @@ runpodctl pod create \
     --container-disk-in-gb 50 \
     --volume-in-gb 100 \
     --volume-mount-path /workspace \
-    --ports "8000/http,3000/http,9090/http,22/tcp"
+    --ports "8000/http,3000/http,9090/http,22/tcp" \
+    --cloud-type COMMUNITY
 
 echo ""
 echo "Pod created. Get SSH details with:"
