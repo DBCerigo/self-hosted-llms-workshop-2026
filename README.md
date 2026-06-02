@@ -19,7 +19,7 @@ Two self-contained inference server stacks, each with provisioning, setup, and m
 | `stacks/single-gpu/` | GCP g2-standard-4 + 1× L4 | Baseline single-GPU deployment |
 | `stacks/multi-gpu/` | GCP g2-standard-24 + 2× L4 | Tensor-parallel multi-GPU deployment |
 
-Shared monitoring stack (Prometheus + Grafana) in `monitoring/`.
+Shared monitoring stack (Prometheus + Grafana) in `monitoring/`. Use Chrome to view Grafana dashboards — Firefox has known issues with certain Grafana fetch patterns.
 
 ---
 
