@@ -2,7 +2,7 @@
 set -e
 
 PROJECT=$(gcloud config get-value project)
-ZONE="europe-west4-a"
+ZONE="us-central1-b"
 INSTANCE_NAME="workshop-single-gpu"
 
 echo "Creating VM in project: $PROJECT"
