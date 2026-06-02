@@ -16,7 +16,7 @@ Two self-contained inference server stacks, each with provisioning, setup, and m
 
 | Stack | Hardware | Purpose |
 |---|---|---|
-| `stacks/single-gpu/` | RunPod 1× RTX PRO 6000 (96GB) | Baseline single-GPU deployment |
+| `stacks/single-gpu/` | GCP g2-standard-4 + 1× L4 | Baseline single-GPU deployment |
 | `stacks/multi-gpu/` | GCP g2-standard-24 + 2× L4 | Tensor-parallel multi-GPU deployment |
 
 Shared monitoring stack (Prometheus + Grafana) in `monitoring/`.
@@ -47,13 +47,6 @@ Prometheus scrapes metrics at `:8000/metrics`. Grafana dashboards on port 3000.
 
 ## Prerequisites
 
-**single-gpu stack (RunPod):**
-- `runpodctl` CLI installed and authenticated (`runpodctl config --apiKey <YOUR_API_KEY>`)
-- SSH key added to RunPod (`runpodctl ssh add-key --key-file <YOUR_SSH_KEY_FILE>`)
-
-**multi-gpu stack (GCP):**
 - `gcloud` CLI installed and authenticated (`gcloud auth login`)
-
-**Both stacks:**
 - A HuggingFace token (for downloading models): `export HF_TOKEN=hf_...`
 - The workshop API key (shared at the session start): `API_KEY=...`
