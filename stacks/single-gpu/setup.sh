@@ -1,23 +1,12 @@
 #!/bin/bash
-# Run once on the VM after provisioning.
+# Run once on the pod after provisioning.
+# The RunPod pytorch image has CUDA and Docker pre-installed.
 set -e
 
-# Docker
-curl -fsSL https://get.docker.com | sh
-sudo usermod -aG docker $USER
-
-# NVIDIA Container Toolkit — enables GPU passthrough into Docker
-curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey \
-    | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg
-
-curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list \
-    | sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' \
-    | sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
-
-sudo apt-get update -q
-sudo apt-get install -y nvidia-container-toolkit
-sudo nvidia-ctk runtime configure --runtime=docker
-sudo systemctl restart docker
+# Install Docker Compose plugin if not present
+if ! docker compose version &>/dev/null; then
+    apt-get update -q && apt-get install -y docker-compose-plugin
+fi
 
 # Pre-pull images so startup is fast during the workshop
 docker pull vllm/vllm-openai:latest
@@ -25,5 +14,5 @@ docker pull prom/prometheus:latest
 docker pull grafana/grafana:latest
 
 echo ""
-echo "Setup complete. Verify GPU is visible:"
-echo "  docker run --rm --gpus all nvidia/cuda:12.1.0-base-ubuntu22.04 nvidia-smi"
+echo "Setup complete. Verify GPU:"
+echo "  nvidia-smi"

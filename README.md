@@ -16,7 +16,7 @@ Two self-contained inference server stacks, each with provisioning, setup, and m
 
 | Stack | Hardware | Purpose |
 |---|---|---|
-| `stacks/single-gpu/` | GCP n1-standard-4 + 1× T4 | Baseline single-GPU deployment |
+| `stacks/single-gpu/` | RunPod 1× RTX PRO 6000 (96GB) | Baseline single-GPU deployment |
 | `stacks/multi-gpu/` | GCP g2-standard-24 + 2× L4 | Tensor-parallel multi-GPU deployment |
 
 Shared monitoring stack (Prometheus + Grafana) in `monitoring/`.
@@ -28,10 +28,16 @@ Shared monitoring stack (Prometheus + Grafana) in `monitoring/`.
 Each stack contains:
 
 ```
-provision.sh      # gcloud commands to create the GCP VM and firewall rules
-setup.sh          # bootstraps the VM: Docker, NVIDIA Container Toolkit
+provision.sh      # create the server (RunPod pod or GCP VM)
+setup.sh          # bootstraps the server: pre-pull Docker images
 start_vllm.sh     # docker run vLLM — edit flags here to iterate on config
 stop_vllm.sh      # stops the running vLLM container
+```
+
+Shared monitoring stack:
+
+```
+monitoring/start.sh   # docker compose up Prometheus + Grafana
 ```
 
 The vLLM server exposes an OpenAI-compatible API on port 8000.
@@ -41,6 +47,13 @@ Prometheus scrapes metrics at `:8000/metrics`. Grafana dashboards on port 3000.
 
 ## Prerequisites
 
+**single-gpu stack (RunPod):**
+- `runpodctl` CLI installed and authenticated (`runpodctl config --apiKey <YOUR_API_KEY>`)
+- SSH key added to RunPod (`runpodctl ssh add-key --key-file <YOUR_SSH_KEY_FILE>`)
+
+**multi-gpu stack (GCP):**
 - `gcloud` CLI installed and authenticated (`gcloud auth login`)
+
+**Both stacks:**
 - A HuggingFace token (for downloading models): `export HF_TOKEN=hf_...`
 - The workshop API key (shared at the session start): `API_KEY=...`

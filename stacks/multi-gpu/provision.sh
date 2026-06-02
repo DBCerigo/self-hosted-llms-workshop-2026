@@ -2,7 +2,7 @@
 set -e
 
 PROJECT=$(gcloud config get-value project)
-ZONE="us-central1-a"
+ZONE="europe-west4-a"
 INSTANCE_NAME="workshop-multi-gpu"
 
 echo "Creating VM in project: $PROJECT"
@@ -11,7 +11,7 @@ gcloud compute instances create $INSTANCE_NAME \
     --project=$PROJECT \
     --zone=$ZONE \
     --machine-type=g2-standard-24 \
-    --image-family=common-cu121-debian-11 \
+    --image-family=common-cu129-ubuntu-2204-nvidia-580 \
     --image-project=deeplearning-platform-release \
     --boot-disk-size=100GB \
     --boot-disk-type=pd-ssd \

@@ -9,8 +9,9 @@ set -e
 docker run -d \
     --name vllm \
     --gpus all \
+    --network host \
     --ipc=host \
-    -p 8000:8000 \
+    -v /workspace/hf-cache:/root/.cache/huggingface \
     -e HUGGING_FACE_HUB_TOKEN=$HF_TOKEN \
     vllm/vllm-openai:latest \
         --model Qwen/Qwen2.5-7B-Instruct-AWQ \
@@ -22,4 +23,4 @@ docker run -d \
         --api-key $API_KEY
 
 echo "vLLM starting — follow logs with: docker logs vllm -f"
-echo "API will be ready at http://$(curl -s ifconfig.me):8000/v1"
+echo "API will be ready at https://${RUNPOD_POD_ID}-8000.proxy.runpod.net/v1"
