@@ -9,8 +9,10 @@ set -e
 docker run -d \
     --name vllm \
     --gpus all \
+    --network host \
     --ipc=host \
-    -p 8000:8000 \
+    --restart unless-stopped \
+    -v /opt/hf-cache:/root/.cache/huggingface \
     -e HUGGING_FACE_HUB_TOKEN=$HF_TOKEN \
     vllm/vllm-openai:latest \
         --model Qwen/Qwen2.5-14B-Instruct \
