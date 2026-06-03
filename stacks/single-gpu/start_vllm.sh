@@ -11,6 +11,7 @@ docker run -d \
     --gpus all \
     --network host \
     --ipc=host \
+    --restart unless-stopped \
     -v /opt/hf-cache:/root/.cache/huggingface \
     -e HUGGING_FACE_HUB_TOKEN=$HF_TOKEN \
     vllm/vllm-openai:latest \
