@@ -28,8 +28,8 @@ Shared monitoring stack (Prometheus + Grafana) in `monitoring/`. Use Chrome to v
 Each stack contains:
 
 ```
-provision.sh      # create the server (RunPod pod or GCP VM)
-setup.sh          # bootstraps the server: pre-pull Docker images
+provision.sh      # create the GCP VM
+setup.sh          # bootstraps the server: install Docker, pre-pull images
 start_vllm.sh     # docker run vLLM — edit flags here to iterate on config
 stop_vllm.sh      # stops the running vLLM container
 ```
@@ -47,23 +47,58 @@ Prometheus scrapes metrics at `:8000/metrics`. Grafana dashboards on port 3000.
 
 ## Sending requests
 
-`client.py` provides a simple wrapper around the OpenAI SDK pointed at the workshop server.
-
 Set the server details first (shared at the session start):
 ```bash
 export WORKSHOP_SERVER_URL=http://<server-ip>:8000/v1
 export WORKSHOP_API_KEY=<api-key>
 ```
 
-As a module:
+`client.py` is a simple wrapper around the OpenAI SDK:
+
 ```python
 from client import chat
 print(chat("Explain KV cache in one sentence"))
 ```
 
-From the command line:
 ```bash
 python client.py "Explain KV cache in one sentence"
+```
+
+---
+
+## Profiling
+
+`profiling/profile.py` generates realistic load against the server so metrics appear in Grafana. It requires only `openai` (already needed for `client.py`).
+
+```bash
+python profiling/profile.py [scenario]
+```
+
+| Scenario | What it does |
+|---|---|
+| `baseline` | Moderate steady load — good starting point |
+| `high-concurrency` | High request rate — stresses KV cache |
+| `long-prompts` | Long inputs — increases TTFT and memory pressure |
+| `throughput` | All requests at once — finds the throughput ceiling |
+| `saturation` | Steady stream above server capacity — use this to demonstrate `--max-num-seqs` |
+| `doctor` | Long system prompt + short questions — demonstrates prefix caching |
+
+### Hands-on loop
+
+The core workshop exercise is: **observe → hypothesise → change → re-profile → verify**.
+
+A good first demo: run `saturation`, then edit `--max-num-seqs` in `start_vllm.sh` (try `8` instead of `64`), restart the server, run `saturation` again, and watch TTFT in Grafana.
+
+```bash
+# 1. Profile with current config
+python profiling/profile.py saturation
+
+# 2. Edit --max-num-seqs in stacks/single-gpu/start_vllm.sh, then:
+bash stacks/single-gpu/stop_vllm.sh
+bash stacks/single-gpu/start_vllm.sh
+
+# 3. Re-profile and compare Grafana
+python profiling/profile.py saturation
 ```
 
 ---
@@ -71,5 +106,9 @@ python client.py "Explain KV cache in one sentence"
 ## Prerequisites
 
 - `gcloud` CLI installed and authenticated (`gcloud auth login`)
-- A HuggingFace token (for downloading models): `export HF_TOKEN=hf_...`
-- The workshop API key (shared at the session start): `API_KEY=...`
+- HuggingFace token for model downloads: `export HF_TOKEN=hf_...`
+- Server URL and API key (shared at the session start):
+  ```bash
+  export WORKSHOP_SERVER_URL=http://<server-ip>:8000/v1
+  export WORKSHOP_API_KEY=<api-key>
+  ```
