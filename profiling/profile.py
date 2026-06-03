@@ -9,6 +9,10 @@ Scenarios:
     high-concurrency spike in concurrent requests — stresses KV cache
     long-prompts     long inputs — increases TTFT and memory pressure
     throughput       fire everything at once — find the throughput ceiling
+    saturation       steady stream above server capacity — run against different
+                     --max-num-seqs values to see queue buildup and TTFT diverge
+    doctor           long system prompt + short questions — run with/without
+                     --enable-prefix-caching to observe prefix cache hit rate
 
 Requires: pip install openai
 """
@@ -86,6 +90,34 @@ Weight Quantisation) preserves the weights most influential to activations at fu
 precision, achieving better quality than naive rounding at the same bit-width.\
 """
 
+# Doctor scenario: long system prompt (medical reference) + short questions.
+# Models a real pattern: many users sharing one long expert system prompt.
+# Loaded at runtime so the file path is relative to this script.
+_DOCTOR_SYSTEM_PROMPT: str | None = None
+
+def _load_doctor_system_prompt() -> str:
+    global _DOCTOR_SYSTEM_PROMPT
+    if _DOCTOR_SYSTEM_PROMPT is None:
+        path = os.path.join(os.path.dirname(__file__), "hypertension.txt")
+        with open(path) as f:
+            _DOCTOR_SYSTEM_PROMPT = f.read()
+    return _DOCTOR_SYSTEM_PROMPT
+
+_DOCTOR_QUESTIONS = [
+    "What blood pressure reading indicates a hypertensive crisis?",
+    "What are the first-line medications for treating hypertension?",
+    "What lifestyle changes are recommended to prevent hypertension?",
+    "What is pre-eclampsia and when does it occur?",
+    "What is the difference between hypertensive urgency and emergency?",
+    "What causes secondary hypertension?",
+    "How is resistant hypertension defined?",
+    "What is the recommended blood pressure target for adults?",
+    "How common is hypertension globally?",
+    "What are the signs that hypertension has caused organ damage?",
+    "What dietary changes lower blood pressure?",
+    "Can hypertension be cured or only managed?",
+]
+
 _LONG_CONTEXT_PROMPTS = [
     _LONG_CONTEXT_PREAMBLE + "\n\nQuestion: What is the KV cache and why does its size matter for inference performance? Answer in detail.",
     _LONG_CONTEXT_PREAMBLE + "\n\nQuestion: Compare tensor parallelism and pipeline parallelism. When would you choose each?",
@@ -103,11 +135,18 @@ SCENARIOS = {
     "high-concurrency": dict(prompt_set="mixed",        num_prompts=80,  request_rate=20.0, max_tokens=512),
     "long-prompts":     dict(prompt_set="long_context", num_prompts=20,  request_rate=1.0,  max_tokens=512),
     "throughput":       dict(prompt_set="mixed",        num_prompts=100, request_rate=None, max_tokens=512),
+    # doctor: long system prompt (~2000 tokens) + short questions at high concurrency.
+    # Run this with and without --enable-prefix-caching to see the TTFT difference.
+    "doctor":           dict(prompt_set="doctor",       num_prompts=40,  request_rate=10.0, max_tokens=256),
+    # saturation: steady stream above the throughput ceiling of a low --max-num-seqs value.
+    # Run against --max-num-seqs 64 then --max-num-seqs 8 to see queue buildup and TTFT diverge.
+    "saturation":       dict(prompt_set="mixed",        num_prompts=80,  request_rate=6.0,  max_tokens=256),
 }
 
 _PROMPT_SETS = {
     "mixed":        _MIXED_PROMPTS,
     "long_context": _LONG_CONTEXT_PROMPTS,
+    "doctor":       None,  # built dynamically — requires hypertension.txt
 }
 
 # ---------------------------------------------------------------------------
@@ -123,15 +162,20 @@ class _Result:
 
 
 async def _send_request(
-    client: AsyncOpenAI, model: str, prompt: str, max_tokens: int
+    client: AsyncOpenAI, model: str, prompt: str, max_tokens: int,
+    system_prompt: str | None = None,
 ) -> _Result:
     start = time.perf_counter()
     ttft_ms = None
     output_tokens = 0
+    messages = []
+    if system_prompt:
+        messages.append({"role": "system", "content": system_prompt})
+    messages.append({"role": "user", "content": prompt})
     try:
         stream = await client.chat.completions.create(
             model=model,
-            messages=[{"role": "user", "content": prompt}],
+            messages=messages,
             max_tokens=max_tokens,
             stream=True,
         )
@@ -161,29 +205,36 @@ async def _run(scenario: str) -> None:
     client = AsyncOpenAI(base_url=server_url, api_key=api_key)
     rate_str = f"{cfg['request_rate']} req/s" if cfg["request_rate"] else "all at once"
 
+    system_prompt = _load_doctor_system_prompt() if cfg["prompt_set"] == "doctor" else None
+    sys_tokens = len(system_prompt.split()) * 4 // 3 if system_prompt else 0
+
     print(f"Scenario:     {scenario}")
     print(f"Server:       {server_url}")
     print(f"Model:        {model}")
+    if system_prompt:
+        print(f"System prompt: ~{sys_tokens} tokens (hypertension reference)")
     print(f"Requests:     {cfg['num_prompts']} at {rate_str}  |  max_tokens={cfg['max_tokens']}")
     print()
     print("Open Grafana and watch TTFT, throughput, and KV cache utilisation.")
     print()
 
     pool = _PROMPT_SETS[cfg["prompt_set"]]
+    if pool is None:
+        pool = _DOCTOR_QUESTIONS
     prompts = [random.choice(pool) for _ in range(cfg["num_prompts"])]
     results: list[_Result] = []
     start_all = time.perf_counter()
 
     try:
         if cfg["request_rate"] is None:
-            tasks = [_send_request(client, model, p, cfg["max_tokens"]) for p in prompts]
+            tasks = [_send_request(client, model, p, cfg["max_tokens"], system_prompt) for p in prompts]
             results = list(await asyncio.gather(*tasks))
         else:
             interval = 1.0 / cfg["request_rate"]
             tasks = []
             for i, prompt in enumerate(prompts):
                 tasks.append(asyncio.create_task(
-                    _send_request(client, model, prompt, cfg["max_tokens"])
+                    _send_request(client, model, prompt, cfg["max_tokens"], system_prompt)
                 ))
                 print(f"  sent {i + 1}/{cfg['num_prompts']}", end="\r")
                 if i < len(prompts) - 1:

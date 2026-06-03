@@ -1,0 +1,55 @@
+Hypertension, also known as high blood pressure, is a long-term medical condition in which the blood pressure in the arteries is persistently elevated. High blood pressure usually does not cause symptoms itself. It is, however, a major risk factor for stroke, coronary artery disease, heart failure, atrial fibrillation, peripheral arterial disease, vision loss, chronic kidney disease, and dementia. Hypertension is a major cause of premature death worldwide.
+
+High blood pressure is classified as primary (essential) hypertension or secondary hypertension. About 90–95% of cases are primary, defined as high blood pressure due to non-specific lifestyle and genetic factors. Lifestyle factors that increase the risk include excess salt in the diet, excess body weight, smoking, physical inactivity and alcohol use. The remaining 5–10% of cases are categorized as secondary hypertension, defined as high blood pressure due to a clearly identifiable cause, such as chronic kidney disease, narrowing of the kidney arteries, an endocrine disorder, or the use of birth control pills.
+
+Blood pressure is classified by two measurements, the systolic (first number) and diastolic (second number) pressures. For most adults, normal blood pressure at rest is under 120 millimeters mercury (mmHg) systolic and 80 mmHg diastolic, elevated blood pressure is between 120–129 mmHg systolic and under 80 mmHg diastolic and high blood pressure is present if the resting blood pressure is persistently at or above 130/80 (stage 1) or 140/90 (stage 2) mmHg. Different numbers apply to children. Ambulatory blood pressure monitoring over a 24-hour period appears more accurate than office-based blood pressure measurement.
+
+Lifestyle changes and medications can lower blood pressure and decrease the risk of health complications. Lifestyle changes include weight loss, physical exercise, decreased salt intake, reducing alcohol intake, and a healthy diet. If lifestyle changes are not sufficient, blood pressure medications are used. Up to three medications taken concurrently can control blood pressure in 90% of people. The treatment of moderately high arterial blood pressure (defined as >160/100 mmHg) with medications is associated with an improved life expectancy. High blood pressure affects 33% of the population globally. About half of all people with high blood pressure do not know that they have it. In 2019, high blood pressure was believed to have been a factor in 19% of all deaths (10.4 million globally).
+
+== Signs and symptoms ==
+
+Hypertension is rarely accompanied by symptoms. Half of all people with hypertension are unaware that they have it. Some people with high blood pressure report headaches, as well as lightheadedness, vertigo, tinnitus, altered vision or fainting episodes. Long-standing untreated hypertension can cause organ damage including hypertensive retinopathy, chronic kidney disease and thickening of the heart muscle.
+
+== Hypertensive crisis ==
+
+Severely elevated blood pressure (equal to or greater than a systolic pressure of 180 mmHg or a diastolic pressure of 120 mmHg) is referred to as a hypertensive crisis. Hypertensive crisis is categorized as either hypertensive urgency or hypertensive emergency, according to the absence or presence of end-organ damage, respectively.
+
+In hypertensive urgency, there is no evidence of end-organ damage resulting from the elevated blood pressure. In these cases, oral medications are used to lower blood pressure over 24 to 48 hours gradually.
+
+In a hypertensive emergency, there is evidence of direct damage to one or more organs. The most affected organs include the brain, kidney, heart, and lungs, producing symptoms that may include confusion, drowsiness, chest pain, and breathlessness. In a hypertensive emergency, the blood pressure must be reduced more rapidly to stop ongoing organ damage.
+
+== Pregnancy ==
+
+Hypertension occurs in approximately 8–10% of pregnancies. High blood pressure in pregnancy can be classified as pre-existing hypertension, gestational hypertension, or pre-eclampsia. Pre-eclampsia is a serious condition in the second half of pregnancy characterised by increased blood pressure and the presence of protein in the urine. It occurs in about 5% of pregnancies and is responsible for approximately 16% of all maternal deaths globally. When symptoms of pre-eclampsia occur, the most common are headache, visual disturbance, vomiting, pain over the stomach, and swelling. Pre-eclampsia can occasionally progress to eclampsia, which is a hypertensive emergency with complications including vision loss, brain swelling, seizures, kidney failure, and pulmonary edema.
+
+== Causes ==
+
+Primary (essential) hypertension results from a complex interaction of genes and environmental factors. More than 2000 common genetic variants with small effects on blood pressure have been identified. Blood pressure rises with aging in societies with a western diet and lifestyle. Reducing dietary salt intake lowers blood pressure; as does weight loss, exercise training, vegetarian diets, increased dietary potassium intake and high dietary calcium supplementation. Increasing alcohol intake is associated with higher blood pressure. Depression is associated with hypertension. Air pollution is associated with hypertension. Insulin resistance, which is common in obesity and is a component of metabolic syndrome, is also associated with elevated blood pressure.
+
+Secondary hypertension results from an identifiable cause. Kidney disease is the most common secondary cause of hypertension. Hypertension can also be caused by endocrine conditions, such as Cushing's syndrome, hyperthyroidism, hypothyroidism, acromegaly, Conn's syndrome or hyperaldosteronism, renal artery stenosis, hyperparathyroidism, and pheochromocytoma. Other causes of secondary hypertension include obesity, sleep apnea, pregnancy, coarctation of the aorta, excessive alcohol, and certain prescription medicines.
+
+== Diagnosis ==
+
+Hypertension is diagnosed based on persistently high resting blood pressure. Elevated blood pressure measurements on at least two separate occasions are required. Proper blood pressure measurement requires the person to sit quietly for at least five minutes, with a properly fitted blood pressure cuff on a bare upper arm, back supported, feet flat on the floor, legs uncrossed, and the arm supported at heart level. Ambulatory blood pressure monitoring over 12 to 24 hours is the most accurate method to confirm the diagnosis.
+
+== Prevention ==
+
+Recommended lifestyle changes for the prevention of hypertension include: maintain normal body weight (BMI below 25); reduce dietary sodium to less than 6g of salt per day; engage in regular aerobic physical activity (minimum 150 minutes per week); limit alcohol consumption to max 1 drink for women and 2 for men per day; consume a diet rich in whole grains, fruits, and vegetables such as the DASH diet; not smoking; stress reduction and management.
+
+== Management ==
+
+Reduction of diastolic blood pressure by 5 mmHg can decrease the risk of stroke by 34%, of ischemic heart disease by 21%, and reduce the likelihood of dementia, heart failure, and mortality from cardiovascular disease.
+
+The first line of treatment for hypertension is lifestyle changes, including dietary changes, physical activity, and weight loss. If hypertension is high enough to justify immediate use of medications, lifestyle changes are still recommended in conjunction with medication.
+
+First-line medications for hypertension include thiazide-diuretics, calcium channel blockers, angiotensin converting enzyme inhibitors (ACE inhibitors), and angiotensin receptor blockers (ARBs). These medications may be used alone or in combination; ACE inhibitors and ARBs are not recommended for use together. Most people require more than one medication to control their hypertension.
+
+Resistant hypertension is defined as high blood pressure that remains above a target level, despite being prescribed three or more antihypertensive drugs simultaneously with different mechanisms of action. Some common secondary causes of resistant hypertension include obstructive sleep apnea, primary aldosteronism and renal artery stenosis.
+
+== Epidemiology ==
+
+In 2024, one in three or 33% of the world population were estimated to have hypertension. Of all people with hypertension, almost half (about 44%) do not know that they have hypertension. In 1990, about 650 million people had a diagnosis of hypertension, which increased to 1.4 billion by 2024. Hypertension becomes more common with age and is around twice as common in diabetics. In 2017, with the American guidelines' change in definition, 46% of people in the United States are affected.
+
+== Prognosis ==
+
+Hypertension is the most important preventable risk factor for premature death worldwide. It increases the risk of ischemic heart disease, stroke, peripheral vascular disease, heart failure, aortic aneurysms, chronic kidney disease, atrial fibrillation, and pulmonary embolism. Hypertension is also a risk factor for cognitive impairment and dementia.
